@@ -390,16 +390,19 @@ class MaterialBase(dict):
                        U_offset = energy_offset['e'] + energy_offset['iz']
                    else:
                        U_offset = 0.
+                
                    tabs[tab_id] = { 'rho': P_DT['R_Array']*units.o2r('D'),
                                     'temp': P_DT['T_Array']*units.o2r('T'),
                                     'U': U_DT['F_Array']*units.o2r('U') + U_offset,
                                     'P': P_DT['F_Array']*units.o2r('P'),
                                     'A': P_DT['F_Array']*units.o2r('A')}
+                   print('P,', spec, (P_DT['F_Array']*units.o2r('P'))[30, 100])
                 else:
                     print "Ignored {s} specie, as it doens't seem to be present in the table!".format(s=spec)
             # writing ionization
             if hasattr(self, 'Zfc_DT'):
                 Zf = self.Zfc_DT
+                assert(Zf['F_Array'].ndim == 2)
                 tabs[601] = { 'rho': Zf['R_Array']*units.o2r('D'),
                               'temp': Zf['T_Array']*units.o2r('T'),
                               'Z':  Zf['F_Array']}

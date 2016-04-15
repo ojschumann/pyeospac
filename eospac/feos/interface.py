@@ -177,7 +177,11 @@ class FeosMaterial(MaterialBase):
         res = {}
 
         for key in res_tmp:
-            res[key] = res_tmp[key].reshape(R.shape)
+            #oshape = res_tmp[key].shape[1:]
+            res[key] = res_tmp[key].reshape(R.shape)# + oshape)
+            if key =='Pt':
+                print(key, res[key][30, 100]*1e-10)
+
         return res
 
 

@@ -10,6 +10,7 @@ import numpy
 def setup_eospac(cfg):
 
     EOSPAC_INCLUDE = os.path.join(cfg['path'], "include", cfg['arch'], cfg['compiler'])
+    EOSPAC_INCLUDE2 = os.path.join(cfg['path'], "src")
     EOSPAC_LIB = os.path.join(cfg['path'], "lib", cfg['arch'], cfg['compiler'])
 
     for test_path in [cfg['path'], EOSPAC_INCLUDE, EOSPAC_LIB]:
@@ -81,6 +82,11 @@ def setup_eospac(cfg):
             Extension("eospac.eospac.libsesio",
                  sources=["eospac/eospac/libsesio.pyx"],
                  include_dirs=[numpy.get_include(), EOSPAC_INCLUDE],
+                 library_dirs=[EOSPAC_LIB],
+                 libraries=['eospac6']),
+            Extension("eospac.eospac.libsesutils",
+                 sources=["eospac/eospac/libsesutils.pyx"],
+                 include_dirs=[numpy.get_include(), EOSPAC_INCLUDE, EOSPAC_INCLUDE2],
                  library_dirs=[EOSPAC_LIB],
                  libraries=['eospac6'])]
 

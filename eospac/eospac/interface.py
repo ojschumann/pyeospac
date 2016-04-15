@@ -11,6 +11,7 @@ from . import constants as cst
 
 from ..quantities import DerivedQuantity
 from ..base import _pull_tables, TableBase, MaterialBase
+from .libsesutils import eospac_clean_cache
 
 SMALL_H=1.0e-9
 
@@ -22,6 +23,7 @@ class EospacTable(TableBase):
     def __init__(self, _name, table_handle=None, info={}, options={}, units='cgs'):
         self._id = table_handle
         self._name = _name
+        eospac_clean_cache()
         super(EospacTable, self).__init__(_name, table_handle, options, units)
         self._apply_options(options)
         self.update(info)

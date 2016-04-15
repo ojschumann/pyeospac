@@ -5,7 +5,6 @@ import os.path
 import eospac as eos
 from eospac.tabulated import avalable_tabs
 
-NESTED_DIR = "/home/rth/luli/NestedOutflows/NestedOutflows/simulations/NestedOutflows"
 DATA_DIR = "/home/rth/src/pyeospac/data/"
 
 
@@ -46,16 +45,19 @@ DATA_DIR = "/home/rth/src/pyeospac/data/"
 #==============================================================================
 #                             Aluminum
 #==============================================================================
+#matbase = 7401
+#feosid = 87401
+#material = 'C8H7Br'
 matbase = 3719
-feosid = 83719
+feosid = 83720
 material = 'Al'
 #tab_options={'type': 'ionmix',
 #          'abar':  26.9815, 'zbar':13, 'rho_ref': 2.7,
 #          'create_tzero': 'linear',
 #          'path': 'al-imx-32g.cn4'}
 
-feos_opts ={'use_maxwell': True, 'use_softspheres': True,
-        'maxwell_temp_arr': None, 'max_materials': 1,
+feos_opts ={'use_maxwell': False, 'use_softspheres': True,
+        'maxwell_temp_arr': None, 'max_materials': 3,
         'grid_subsample_default': 0}
 #==============================================================================
 #                               Iron
