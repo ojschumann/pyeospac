@@ -30,8 +30,8 @@ def test_table_parsing():
 def test_units_gamma():
     """ Test units conversion with gamma backend """
     unit_systems = ['cgs', 'eospac', 'feos']
-    T_conv = dict(zip(unit_systems,(1.0, 1.0, 1./eV2K_cst)))
-    U_conv = dict(zip(unit_systems,(1.0, 1e10, 1)))
+    T_conv = dict(list(zip(unit_systems,(1.0, 1.0, 1./eV2K_cst))))
+    U_conv = dict(list(zip(unit_systems,(1.0, 1e10, 1))))
 
     meint, meint_dx, meint_dy, meint_dxy = {}, {}, {}, {}
     

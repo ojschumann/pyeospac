@@ -24,7 +24,7 @@ def ode_func(rho, eint,  eos_itp):
 def ode_func_jacobian(eint, rho, eos_itp):
     #dy/dt = f(y, t)
     args = rho, np.array([eint])
-    print args
+    print(args)
     return eos_itp.Pt_DUt.dFy(*args)/rho**2
 
 

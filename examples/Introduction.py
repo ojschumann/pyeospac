@@ -19,15 +19,15 @@ import numpy as np
 
 # <codecell>
 
-print eos.tables.keys()
+print(list(eos.tables.keys()))
 
 # <codecell>
 
-print eos.info.keys()
+print(list(eos.info.keys()))
 
 # <codecell>
 
-print eos.options.keys()
+print(list(eos.options.keys()))
 
 # <markdowncell>
 
@@ -49,19 +49,19 @@ mat = eos.EosMaterial(3720, ['Pt_DT', 'Ut_DT','St_DT', 'Pt_DSt'],
 
 # see what options are applied
 for table_name in mat.tables:
-    print table_name, mat.get_table(table_name).options
+    print(table_name, mat.get_table(table_name).options)
 
 # <codecell>
 
 # Separate tables can be accessed as parameters of the 'mat' object for instance 'm.Pt_DT'
 # this is a shortcut from m.get_table('Pt_DT')
 # Info values can be acessed as attributes of the EosMaterial class
-print mat.Pt_DT['Normal_Density'], mat.Pt_DT['Mean_Atomic_Num']
+print(mat.Pt_DT['Normal_Density'], mat.Pt_DT['Mean_Atomic_Num'])
 
 # <codecell>
 
 # The list of all avalables info parameters for a given table can be obtained with
-print mat.Pt_DT
+print(mat.Pt_DT)
 
 # <codecell>
 
@@ -69,19 +69,19 @@ X = np.array([0.1, 0.2, 0.3]) # density array in g.cm⁻³
 Y = np.array([1e5, 1e6, 1e8]) # temperature array in K
 # interpolates the total pressure at given X,Y points
 # X,Y could be arrrays of any dimension
-print 'F', mat.Pt_DT(X,Y)
+print('F', mat.Pt_DT(X,Y))
 
 # ∂F/∂x  first order derivative as returned by EOSPAC6 (same thing for dFy)
-print 'dFx', mat.Pt_DT.dFx(X,Y)
+print('dFx', mat.Pt_DT.dFx(X,Y))
 
 # ∂²F/∂x² second order derivative (finite differences over EOSPAC's first derivative)
-print 'dFxx', mat.Pt_DT.dFxx(X,Y)
+print('dFxx', mat.Pt_DT.dFxx(X,Y))
 
 # ∂²F/∂x∂y second order derivative 
-print 'dFxy', mat.Pt_DT.dFxy(X,Y)
-print 'dFyx', mat.Pt_DT.dFyx(X,Y)
+print('dFxy', mat.Pt_DT.dFxy(X,Y))
+print('dFyx', mat.Pt_DT.dFyx(X,Y))
 # checking that F is C² : ||dFxy - dFyx|| << 1
-print 'max(dFxy - dFxy)', np.abs(mat.Pt_DT.dFxy(X,Y) - mat.Pt_DT.dFyx(X,Y)).max()
+print('max(dFxy - dFxy)', np.abs(mat.Pt_DT.dFxy(X,Y) - mat.Pt_DT.dFyx(X,Y)).max())
 
 # <markdowncell>
 
@@ -100,21 +100,21 @@ mix = eos.EosMixture([3720, 7593], ['[PUS]t_DT', 'Pt_DSt'],
                                '[PU]t_DT': {'x_convert': 1.0},
                                (7593, 'St_DT'): {'linear': False},
                                 })
-print 'Loaded tables:', mix.tables
+print('Loaded tables:', mix.tables)
 
 # <codecell>
 
 # It is possible access to different loaded materials separately 
-print "object:", mix.m3720
+print("object:", mix.m3720)
 
 # See previous section to all possibilities of EosMaterial class. For instance:
-print 'interpolating :', mix.m3720.Pt_DT(X,Y) 
+print('interpolating :', mix.m3720.Pt_DT(X,Y)) 
 
 # <codecell>
 
 # Multi-material properties can be accessed by specifying the table name as attribute. For instance:
-print mix.Pt_DT['Material_ID']
-print mix.Pt_DT['Normal_Density']
+print(mix.Pt_DT['Material_ID'])
+print(mix.Pt_DT['Normal_Density'])
 
 # <codecell>
 
@@ -124,15 +124,15 @@ print mix.Pt_DT['Normal_Density']
 frac = np.zeros((2,) + X.shape)
 frac[0] = 0.25
 frac[1] = 1 - frac[0]
-print 'frac.shape', frac.shape
-print 'X.shape', X.shape
+print('frac.shape', frac.shape)
+print('X.shape', X.shape)
 
 # <codecell>
 
 # the interpolation within mixture is then done as follows:
 
-print 'F', mix.Pt_DT(X,Y, frac)
-print 'dFx', mix.Pt_DT.dFx(X,Y, frac)
+print('F', mix.Pt_DT(X,Y, frac))
+print('dFx', mix.Pt_DT.dFx(X,Y, frac))
 
 # <markdowncell>
 
@@ -143,25 +143,25 @@ print 'dFx', mix.Pt_DT.dFx(X,Y, frac)
 # <codecell>
 
 # see eospac/quantities.py for more details
-print eos.derived_quantities
+print(eos.derived_quantities)
 
 # <codecell>
 
 # If a derived quantity is given to EosMaterial (or EosMixture), all the required tables to 
 # compute the corresponding quantity will be pulled automatically
 mat = eos.EosMaterial(3720, ['Pt_DT', 'gamc_s','gamc_t', 'Cp'], spec=['t', 'ic'])
-print 'mat.tables', mat.tables
-print 'Cp dependencies:', eos.derived_quantities['Cp']['dependencies']
-print 'Cp required tables:', eos.derived_quantities.get_dependencies('Cp', spec=['t'])
+print('mat.tables', mat.tables)
+print('Cp dependencies:', eos.derived_quantities['Cp']['dependencies'])
+print('Cp required tables:', eos.derived_quantities.get_dependencies('Cp', spec=['t']))
 
 # <codecell>
 
 # Now we can acess for instance the gamc_t quantity in a similar way to a table
-print 'gamc_t total', mat.q['gamc_t','t'](X,Y)
-print 'gamc_t ion+cc', mat.q['gamc_t','ic'](X,Y)
+print('gamc_t total', mat.q['gamc_t','t'](X,Y))
+print('gamc_t ion+cc', mat.q['gamc_t','ic'](X,Y))
 
 # The derived quantities work with mixtures as well:
-print 'gamc_t mixture total', mix.q['gamc_t','t'](X,Y, frac)
+print('gamc_t mixture total', mix.q['gamc_t','t'](X,Y, frac))
 
 # <codecell>
 
@@ -174,7 +174,7 @@ def gamma_isothermal_v0(tab, spec, rho, temp):
     P =  tab.Pt_DT(rho, temp)
     return rho*tab.Pt_DT.dFx(rho, temp)/P
 
-print 'gamc_t_v0 total', mat.q['gamc_t_v0','t'](X,Y)
+print('gamc_t_v0 total', mat.q['gamc_t_v0','t'](X,Y))
 
 # <codecell>
 
@@ -196,8 +196,8 @@ def gamma_isothermal_v1(tab, spec, *XYf):
     P =  tab.get_table('P{s}_DT', spec)(*XYf)
     return rho*tab.get_table('P{s}_DT', spec).dFx(*XYf)/P
 
-print 'gamc_t_v1 total', mat.q['gamc_t_v1','t'](X,Y)
-print 'gamc_t_v1 mixture total', mix.q['gamc_t_v1','t'](X,Y, frac)
+print('gamc_t_v1 total', mat.q['gamc_t_v1','t'](X,Y))
+print('gamc_t_v1 mixture total', mix.q['gamc_t_v1','t'](X,Y, frac))
 
 # <markdowncell>
 

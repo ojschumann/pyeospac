@@ -13,7 +13,7 @@ from copy import deepcopy
 
 def _gen_eos_args(state_i, eos_pars):
     """ Generate a dict that we can pass to EosInterface """
-    pars = dict( state_i.items() + eos_pars.items())
+    pars = dict( list(state_i.items()) + list(eos_pars.items()))
     for key in ['u_s', 'u_2']:
         if key in pars:
             del pars[key]

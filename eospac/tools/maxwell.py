@@ -24,7 +24,7 @@ def get_critical_point(eosmat, x, y, x_min=None, x_max=None, y_min=None, y_max=N
     #    raise ValueError("The critical point can't have a negative pressure!")
 
     out = {'pres_c': pres_c, 'rho_c': rho_c, 'temp_c': temp_c}
-    for key, func in extra_fields.iteritems():
+    for key, func in extra_fields.items():
         out[key] = float(func(out['rho_c'], out['temp_c']))
     return out
 
@@ -58,7 +58,7 @@ def saturation_curve(tab, rho, temp, extra_fields={}):
 
     out = {'sat_l': sat_l, 'sat_v': sat_v}
     for maj_key in out:
-        for key, func in extra_fields.iteritems():
+        for key, func in extra_fields.items():
             out[maj_key][key] = func(out[maj_key]['rho'], out[maj_key]['temp'])
 
     return  out
@@ -193,8 +193,8 @@ def get_contour(func, x, y, level=0.0, x_min=None, x_max=None, y_min=None, y_max
     for el in res:
         x_contour = el[:,0]
         y_contour = el[:,1]
-        F = [ np.interp(x_contour, range(len(x)), x),
-              np.interp(y_contour, range(len(y)), y)]
+        F = [ np.interp(x_contour, list(range(len(x))), x),
+              np.interp(y_contour, list(range(len(y))), y)]
         for field in extra_fields:
             F.append(field(x_contour, y_contour))
         out.append(np.array(F).T)

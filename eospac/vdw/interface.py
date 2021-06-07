@@ -56,11 +56,11 @@ available_tables = {'Pt_DT': Pt_DT, 'Ut_DT': Ut_DT,
                     'Pt_DUt': Pt_DUt}
 
 def Pt_DT_dFx(self, rho, temp):
-    print 'Warning: Pt_DT.dFx is is a derivative vs specific volume, not density !!!!'
+    print('Warning: Pt_DT.dFx is is a derivative vs specific volume, not density !!!!')
     return -R_CST*temp/(self['abar']*(1./rho - self['b'])**(2)) + 2*self['a']*rho**3
 
 def Pt_DT_dFxx(self, rho, temp):
-    print 'Warning: Pt_DT.dFxx is is a derivative vs specific volume, not density !!!!'
+    print('Warning: Pt_DT.dFxx is is a derivative vs specific volume, not density !!!!')
     return 2*R_CST*temp/(self['abar']*(1./rho - self['b'])**(3)) - 6*self['a']*rho**4
 
 def Pt_DT_dFy(self, rho, temp):
@@ -73,14 +73,14 @@ def Ut_DT_dFy(self, rho, eint):
     return rho/(self['delta']*self['abar'])
 
 def Pt_DSt_dFx(self, rho, sint):
-    print 'Warning: Pt_DSt_dFx is is a derivative vs specific volume, not density !!!!'
+    print('Warning: Pt_DSt_dFx is is a derivative vs specific volume, not density !!!!')
     delta = self['delta']
     exp_pow = np.exp(delta*self['abar']*(sint)/R_CST)
     return -delta*(delta+1)*exp_pow/(1./rho - self['b'])**(delta+2.0) + 2*self['a']*rho**3
 
 
 def Pt_DSt_dFxx(self, rho, sint):
-    print 'Warning: Pt_DSt_dFxx is is a derivative vs specific volume, not density !!!!'
+    print('Warning: Pt_DSt_dFxx is is a derivative vs specific volume, not density !!!!')
     delta = self['delta']
     exp_pow = np.exp(delta*self['abar']*(sint)/R_CST)
     return delta*(delta+1)*(delta+2)*exp_pow/(1./rho - self['b'])**(delta+3.0) - 6*self['a']*rho**4
@@ -141,7 +141,7 @@ class VdwMaterial(MaterialBase):
             either rho_c and Pt_c or a and b should be provided
         """
         self._backend = 'vdw'
-        self.tables = _pull_tables(tables, spec, available_tables.keys())
+        self.tables = _pull_tables(tables, spec, list(available_tables.keys()))
         self.options = {'delta': None, 'rho_c': None, 'Pt_c': None,
                 'a': None, 'b': None, 'abar': None}
 

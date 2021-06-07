@@ -94,7 +94,7 @@ mat2 = eos.EosMaterial(matbase, tables=[tab for tab in avalable_tabs],
       options=feos_opts,
       units='cgs', backend='feos')
 if feos_opts['use_maxwell']:
-    print 'Critical point {3}: {0:.3f} g.cm⁻³,  {1:.1f} K,  {2:.0f} bar'.format(
+    print('Critical point {3}: {0:.3f} g.cm⁻³,  {1:.1f} K,  {2:.0f} bar'.format(
         mat2.Pt_DT['critical_rho'], mat2.Pt_DT['critical_temp']*11640,
-        mat2.Pt_DT['critical_P']*1e-10*1e4, material)
+        mat2.Pt_DT['critical_P']*1e-10*1e4, material))
 mat2.save(os.path.join(DATA_DIR, '{0}_feos_{1}.sesb'.format(material, feosid)), matid=feosid)

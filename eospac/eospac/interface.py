@@ -150,7 +150,7 @@ class EospacMaterial(MaterialBase):
        self.material = int(material)
 
        self.tables = _pull_tables(tables, spec, cst.tables)
-       self.options = {key: deepcopy(val) for key, val in options.iteritems()}
+       self.options = {key: deepcopy(val) for key, val in options.items()}
        if table_handles is None:
            self._id_list = _create_tables(
                    np.array([cst.tables[key] for key in self.tables], dtype='int32'),
@@ -161,7 +161,7 @@ class EospacMaterial(MaterialBase):
 
        for tab_idx, tab_key in enumerate(self.tables):
            options = {}
-           for opt_key, opt_vals in self.options.iteritems():
+           for opt_key, opt_vals in self.options.items():
                if re.match(opt_key, tab_key):
                    options.update(opt_vals)
            setattr(self, tab_key,
@@ -257,7 +257,7 @@ class EospacMixture:
 
         for material_idx, material in enumerate(self.materials):
             material_options = {}
-            for regexp_tuple, option_vals in options.iteritems():
+            for regexp_tuple, option_vals in options.items():
                 if type(regexp_tuple) is tuple:
                     mat_regexp, table_regexp = regexp_tuple
                     if re.match(str(mat_regexp), str(material)):

@@ -32,12 +32,12 @@ def eos_plot(mat, name, ax,spec='t', vmin=None, vmax=None,
         #Yarr[0] = 0
     else:
         Yarr = np.logspace(np.log10(Tmin)+0.1, np.log10(Tmax)-0.1, ny)
-    print Yarr.min()
+    print(Yarr.min())
 
     X, Y = np.meshgrid(Xarr, Yarr, indexing='ij')
 
     if name in mat.tables:
-        print 'ok'
+        print('ok')
         tab = mat.get_table(name, spec)
         F = tab(X,Y)
         if vmax is None:
@@ -65,7 +65,7 @@ def eos_plot(mat, name, ax,spec='t', vmin=None, vmax=None,
         if vmax is None:
             vmax = np.percentile(F, 99) 
         cs = ax.pcolormesh(X, Y*K2eV, F, vmin=0, vmax=vmax, cmap=plt.cm.jet)
-        plt.title(ur'Table {0}: total: {1}'.format(
+        plt.title(r'Table {0}: total: {1}'.format(
             mat.get_table(DT_tables[0], spec)['Material_ID'],
             derived_quantities[name]['description'].decode('utf8').replace('\n','')))
         plt.colorbar(cs)

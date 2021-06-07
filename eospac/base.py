@@ -87,9 +87,9 @@ class EosUnits(dict):
         try:
             return self[original][var]/self[requested][var]
         except KeyError:
-            print 'eospac/base.py:EosUnits.o2r Warning: variable {0} not defined within \n\
+            print('eospac/base.py:EosUnits.o2r Warning: variable {0} not defined within \n\
               EosUnits. You are either trying to access one of less used EOSPAC variables,\n\
-              or something went wrong! Falling back to a converion factor of 1...'.format(var)
+              or something went wrong! Falling back to a converion factor of 1...'.format(var))
             return 1.
         else:
             raise
@@ -259,7 +259,7 @@ class TableBase(dict):
         out += ['\n'
                 'Options',
                 '-'*15]
-        for key, val in self.options.iteritems():
+        for key, val in self.options.items():
             out.append('{0:20} : {1}'.format(key, val))
 
         out += ['='*80]
@@ -323,7 +323,7 @@ class MaterialBase(dict):
                     }
         if mode is None:
             # determining the mode automatically based on the provided arguments
-            for key, req_vars in mode_dict.iteritems():
+            for key, req_vars in mode_dict.items():
                 if np.all([var in args for var in req_vars]):
                     mode = key
         if mode is None:
@@ -347,9 +347,9 @@ class MaterialBase(dict):
         for key in options_in:
             if key not in self._default_options:
                 raise KeyError("Unknown option key {0}. Accepted options are: {1}".format(
-                                    key, str(self._default_options.keys())))
+                                    key, str(list(self._default_options.keys()))))
         # setting to default version if key was not provided
-        for key, default_val in self._default_options.iteritems():
+        for key, default_val in self._default_options.items():
             if key not in options_in:
                 options_in[key] = default_val
         if self._backend == 'feos':
@@ -398,7 +398,7 @@ class MaterialBase(dict):
                                     'A': P_DT['F_Array']*units.o2r('A')}
                    print('P,', spec, (P_DT['F_Array']*units.o2r('P'))[30, 100])
                 else:
-                    print "Ignored {s} specie, as it doens't seem to be present in the table!".format(s=spec)
+                    print("Ignored {s} specie, as it doens't seem to be present in the table!".format(s=spec))
             # writing ionization
             if hasattr(self, 'Zfc_DT'):
                 Zf = self.Zfc_DT
@@ -407,7 +407,7 @@ class MaterialBase(dict):
                               'temp': Zf['T_Array']*units.o2r('T'),
                               'Z':  Zf['F_Array']}
             else:
-                print 'Ionization table not present!'
+                print('Ionization table not present!')
             #for tab_id in [601]:
             #    ctab = tabs[tab_id]
             #    ctab['rho'] = np.log10(np.fmax(1e-10, ctab['rho']))

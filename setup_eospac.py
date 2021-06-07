@@ -43,7 +43,7 @@ def setup_eospac(cfg):
                 }
 
     for idx, line in enumerate(header):
-        for section_name, section_dict in sections.iteritems():
+        for section_name, section_dict in sections.items():
             if re.match(section_dict['expr'], line):
                 section_dict['begin'] = idx+1
                 if section_dict['previous']:
@@ -57,7 +57,7 @@ def setup_eospac(cfg):
 # header by the setup.py script. All manual changes will be overwritten
 # at the next install.
 # Created on: {0}\n\n""".format(datetime.now()))
-        for section_name, section_dict in sections.iteritems():
+        for section_name, section_dict in sections.items():
             f.write('{0}  = dict(\n'.format(section_name))
             out_txt = []
             for line in header[section_dict['begin']:section_dict['end']]:

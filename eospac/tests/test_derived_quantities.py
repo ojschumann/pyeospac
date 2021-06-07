@@ -13,7 +13,7 @@ def setup():
     # Load the tables to compute all the derived quantities for all species
     material = 7593
     tab = eos.EosMaterial(material,
-            eos.derived_quantities.keys(),
+            list(eos.derived_quantities.keys()),
             spec=['t', 'e', 'ic'],
             options={})
     # selecting an isotherm at 10 eV
@@ -29,7 +29,7 @@ def test_second_derivatives():
 
 def test_derived_quantities_zero_order():
     """Checking all derived quantities can be computed (e.g. that dependencies are ok)"""
-    for qtty_name, qtty_dict in eos.derived_quantities.iteritems():
+    for qtty_name, qtty_dict in eos.derived_quantities.items():
         ctab = eos.EosMaterial(material, [qtty_name], spec=qtty_dict['spec'])
         for spec in qtty_dict['spec']:
             yield ctab.q[qtty_name, spec], X, Y

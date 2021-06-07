@@ -69,7 +69,7 @@ class GammaMaterial(MaterialBase):
             game: defined in P = (γ_e - 1)ερ
             gamc: defined in γ_c = ρ/P * ∂P/∂ρ|_S
         """
-        self.tables = _pull_tables(tables, spec, available_tables.keys())
+        self.tables = _pull_tables(tables, spec, list(available_tables.keys()))
 
         self.options = options
         if options['game']<1:

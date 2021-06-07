@@ -14,7 +14,7 @@ class DerivedQuantityContainter(dict):
     def __repr__(self):
         out = ['List of derived quantities',
                 '-'*30]
-        for key, val in self.iteritems():
+        for key, val in self.items():
             out.append('   * {0:15} : {1:6} : {2}'.format(key, ' '.join(val['spec']),
                         val['description']))
         return '\n'.join(out)
@@ -63,13 +63,13 @@ class DerivedQuantity(dict):
             #dependencies = [name.format(s=spec) for name in element['dependencies']]
             return lambda *XYt: element['function'](self.table, spec, *XYt)
         else:
-            raise KeyError('Key {0} not in {1}'.format(key, str(self.keys())))
+            raise KeyError('Key {0} not in {1}'.format(key, str(list(self.keys()))))
 
 
 def add_quantity(**kwargs):
     def inner_decorator(function):
         if 'name' not in kwargs:
-            kwargs['name'] = function.func_name
+            kwargs['name'] = function.__name__
         if 'dependencies' not in kwargs:
             kwargs['dependencies'] = []
         if 'spec' not in kwargs:

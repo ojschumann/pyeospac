@@ -68,7 +68,7 @@ def test_sesascii():
 
         for key in ['D_Array', 'T_Array', 'F_Array']:
             if not np.allclose(tab0[key], tab1[key]):
-                print tab_name, key, 'failed'
+                print(tab_name, key, 'failed')
 
             yield assert_allclose, tab0[key], tab1[key], 1e-5
 

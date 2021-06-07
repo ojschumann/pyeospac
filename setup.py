@@ -4,7 +4,7 @@
 from setuptools import setup, Extension, find_packages
 import os.path
 from Cython.Distutils import build_ext
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from setup_eospac import setup_eospac
 from setup_feos import setup_feos
 import re
@@ -32,12 +32,12 @@ extensions_found = []
 if os.path.exists(cfg_eospac['path']):
     extensions_found += setup_eospac(cfg_eospac)
 else:
-    print warning_sign.format('Warning: linking to the EOSPAC library was not done. ')
+    print(warning_sign.format('Warning: linking to the EOSPAC library was not done. '))
 
 if os.path.exists(cfg_feos['path']):
     extensions_found += setup_feos(cfg_feos)
 else:
-    print warning_sign.format('Warning: linking to the EOSPAC library was not done. ')
+    print(warning_sign.format('Warning: linking to the EOSPAC library was not done. '))
 
 setup(
     name="eospac",
