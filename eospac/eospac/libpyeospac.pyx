@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#cython: language_level=3
 import numpy as np
 cimport numpy as np
 
-import constants as cst
+from . import constants as cst
 from libc.stdlib cimport malloc, free
 # to use the Numpy-C-API from Cython
 np.import_array()
@@ -47,6 +48,9 @@ cdef extern from "eos_Interface.h":
                                     EOS_INTEGER *errorCode)
     void eos_GetErrorMessage (EOS_INTEGER *errorCode,
                                        EOS_CHAR errorMsg[])
+    void eos_ErrorCodesEqual(EOS_INTEGER *errorCode1,
+                                       EOS_INTEGER *errorCode2,
+                                       EOS_BOOLEAN *result)
     void eos_GetMaxDataFileNameLength (EOS_INTEGER *max_length)
     void eos_GetPackedTables (EOS_INTEGER *nTables,
                                        EOS_INTEGER tableHandles[],
@@ -163,12 +167,12 @@ cpdef _get_error_list(np.ndarray[int32, ndim=1, mode='c'] table_handles):
 
 cpdef _print_errors(np.ndarray[int32, ndim=1, mode='c'] table_handles):
     errors = _get_error_list(table_handles)
-    print "EOSPAC traceback"
-    print "="*16
-    print ' handle    error'
+    print("EOSPAC traceback")
+    print("="*16)
+    print(' handle    error')
     for handle, msg in errors.iteritems():
-        print '   {0}   ->   {1}'.format(handle, msg)
-    print "="*16
+        print('   {0}   ->   {1}'.format(handle, msg))
+    print("="*16)
     return ''
 
 cpdef _interpolate(long table_handle,
@@ -180,6 +184,9 @@ cpdef _interpolate(long table_handle,
     cdef np.ndarray[float64, ndim=1, mode='c'] dFx
     cdef np.ndarray[float64, ndim=1, mode='c'] dFy
     cdef np.ndarray[int32, ndim=1, mode='c'] xyBounds
+    cdef EOS_BOOLEAN equal
+    cdef EOS_INTEGER code
+
     if  len(xVals) != len(yVals):
         raise ValueError('xVals and yVals arguments should be of the same shape!')
     nXYPairs = len(xVals)
@@ -198,21 +205,21 @@ cpdef _interpolate(long table_handle,
     if error_code:
         if error_code == EOS_INTERP_EXTRAPOLATED:
             xyBounds = _check_extrap(table_handle, xVals, yVals)
-            print xyBounds
+            print(xyBounds)
             for error in np.unique(xyBounds):
                 if error:
                     default_error_labels =  cst.errors.keys()
                     default_error_ids =  np.array(cst.errors.values())
                     err_mask = xyBounds==error
-                    print 'Error {0} occured {1} times!'.format(
+                    print('Error {0} occured {1} times!'.format(
                             default_error_labels[np.argmin(np.abs(default_error_ids - error))],
-                            np.sum(err_mask))
-                    print 'Following (idx, X, Y) elements raised an exception:'
+                            np.sum(err_mask)))
+                    print('Following (idx, X, Y) elements raised an exception:')
                     iXY = np.zeros(nXYPairs, dtype='i4, f8, f8').T
                     iXY['f0'] = np.arange(nXYPairs)
                     iXY['f1'] = xVals
                     iXY['f2'] = yVals
-                    print iXY[err_mask, :]
+                    print(iXY[err_mask, :])
 
 
 

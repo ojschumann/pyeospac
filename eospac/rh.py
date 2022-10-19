@@ -19,7 +19,7 @@ def _gen_eos_args(state_i, eos_pars):
             del pars[key]
     return pars
 
-class RHBase:
+class RankineHugoniot:
     def __init__(self, state0, state1, backend='gamma', eos_pars={},
             root_opts={'method': 'hybr'}, check=True, material=None,
             **args):
@@ -70,9 +70,6 @@ class RHBase:
         x = cls(*pargs, **vargs)
         return x.res
 
-
-
-class RankineHugoniot(RHBase):
     @staticmethod
     def _solve_ener_rho1(state0, state1, eos_itp, root_opts):
         """

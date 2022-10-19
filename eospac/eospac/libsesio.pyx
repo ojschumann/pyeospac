@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+#cython: language_level=3
+
 import numpy as np
 cimport numpy as np
 
@@ -97,8 +99,8 @@ cpdef _write_sesbin(ses_string filename, ses_material_id matid, dict prop, dict 
     """
     cdef ses_file_handle f
     cdef ses_table_id tid
-    cdef ses_open_type wopen_flag = 'W'
-    cdef ses_file_type file_type = 'B'
+    cdef ses_open_type wopen_flag = b'W'
+    cdef ses_file_type file_type = b'B'
 
     f = ses_open(filename, wopen_flag)
     ses_set_format(f, file_type)

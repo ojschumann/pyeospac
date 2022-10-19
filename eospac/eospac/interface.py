@@ -33,6 +33,7 @@ class EospacTable(TableBase):
     def _interpolate(self, X, Y, kind):
         if type(X) in [float, int]:
            X = np.array(X)
+        if type(Y) in [float, int]:
            Y = np.array(Y)
         if X.shape != Y.shape:
             raise ValueError('X and Y arguments should be ndarrays of the same shape!')
@@ -115,7 +116,7 @@ class EospacTable(TableBase):
         eos_Interface.h
         """
         self.options = options
-        options_keys = sorted(options.keys(),
+        options_keys = sorted(list(options.keys()),
                                 key=lambda k: cst.options[k])
         for key in options_keys:
             if options[key]:
