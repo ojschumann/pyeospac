@@ -202,14 +202,16 @@ cpdef _interpolate(long table_handle,
                      <EOS_REAL*> np.PyArray_DATA(dFx),
                      <EOS_REAL*> np.PyArray_DATA(dFy),
                      &error_code)
-    if error_code:
-        if error_code == EOS_INTERP_EXTRAPOLATED:
+    if error_code:        
+        code = EOS_INTERP_EXTRAPOLATED
+        eos_ErrorCodesEqual(&error_code, &code, &equal)
+        if equal:
             xyBounds = _check_extrap(table_handle, xVals, yVals)
             print(xyBounds)
             for error in np.unique(xyBounds):
                 if error:
-                    default_error_labels =  cst.errors.keys()
-                    default_error_ids =  np.array(cst.errors.values())
+                    default_error_labels =  list(cst.errors.keys())
+                    default_error_ids =  np.array(list(cst.errors.values()))
                     err_mask = xyBounds==error
                     print('Error {0} occured {1} times!'.format(
                             default_error_labels[np.argmin(np.abs(default_error_ids - error))],
@@ -219,8 +221,8 @@ cpdef _interpolate(long table_handle,
                     iXY['f0'] = np.arange(nXYPairs)
                     iXY['f1'] = xVals
                     iXY['f2'] = yVals
-                    print(iXY[err_mask, :])
-
+                    print(iXY[err_mask])
+                    return fVals, dFx, dFy
 
 
         raise RuntimeError( _get_error_message(error_code) )
