@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# cython: language_level=2
+# cython: language_level=3
 import numpy as np
 cimport numpy as np
 
-import constants as cst
+from . import constants as cst
 from libc.stdlib cimport malloc, free
 # to use the Numpy-C-API from Cython
 np.import_array()
