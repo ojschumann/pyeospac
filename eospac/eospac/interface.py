@@ -137,9 +137,7 @@ class EospacTable(TableBase):
             # applying false to an option doesn't really work at the
             # moment
         with LocaleManager():
-            print("PRE")
             _load_tables(np.array([self._id], dtype='int32'))        
-            print("POST")
 
 
 
