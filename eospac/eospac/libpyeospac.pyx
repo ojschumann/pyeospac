@@ -333,3 +333,14 @@ cpdef _check_extrap(long table_handle,
         raise RuntimeError(_get_error_message(error_code))
     return xyBounds
 
+
+cpdef _get_version():
+    cdef EOS_INTEGER version_length
+    cdef EOS_CHAR* version_string
+
+    eos_GetVersionLength(&version_length)
+
+    version_string = <char *> malloc(version_length*sizeof(char))
+    eos_GetVersion(version_string)
+    
+    return version_string

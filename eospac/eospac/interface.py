@@ -6,7 +6,7 @@ from copy import deepcopy
 import locale
 
 from .libpyeospac import _create_tables, _load_tables, _interpolate,\
-            _get_table_info, _set_option, _mix
+            _get_table_info, _set_option, _mix, _get_version
 
 from . import constants as cst
 
@@ -145,6 +145,7 @@ class EospacTable(TableBase):
 
 class EospacMaterial(MaterialBase):
     _original_units = 'eospac'
+    _eospac_version = _get_version()
 
     def __init__(self, material=None, tables=['Pt_DT', 'Ut_DT'], options={},
             spec=['t'], table_handles=None, units='cgs'):
