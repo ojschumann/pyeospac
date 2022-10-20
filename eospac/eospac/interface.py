@@ -3,6 +3,7 @@
 import numpy as np
 import re
 from copy import deepcopy
+import locale
 
 from .libpyeospac import _create_tables, _load_tables, _interpolate,\
             _get_table_info, _set_option, _mix
@@ -15,6 +16,16 @@ from .libsesutils import eospac_clean_cache
 
 SMALL_H=1.0e-9
 
+
+#stolen from https://stackoverflow.com/questions/50737783/temporarily-override-locale-with-a-context-manager
+class LocaleManager:
+    def __init__(self, localename="C"):
+        self.name = localename
+    def __enter__(self):
+        self.orig = locale.setlocale(locale.LC_CTYPE)
+        locale.setlocale(locale.LC_ALL, self.name)
+    def __exit__(self, exc_type, exc_value, traceback):
+        locale.setlocale(locale.LC_ALL, self.orig)
 
 
 class EospacTable(TableBase):
@@ -125,9 +136,10 @@ class EospacTable(TableBase):
                 _set_option(self._id, cst.options[key],  option_val)
             # applying false to an option doesn't really work at the
             # moment
-
-        _load_tables(np.array([self._id], dtype='int32'))
-
+        with LocaleManager():
+            print("PRE")
+            _load_tables(np.array([self._id], dtype='int32'))        
+            print("POST")
 
 
 
@@ -153,9 +165,10 @@ class EospacMaterial(MaterialBase):
        self.tables = _pull_tables(tables, spec, cst.tables)
        self.options = {key: deepcopy(val) for key, val in options.items()}
        if table_handles is None:
-           self._id_list = _create_tables(
-                   np.array([cst.tables[key] for key in self.tables], dtype='int32'),
-                   np.array([self.material]*len(self.tables), dtype='int32'))
+           with LocaleManager():
+                self._id_list = _create_tables(
+                    np.array([cst.tables[key] for key in self.tables], dtype='int32'),
+                    np.array([self.material]*len(self.tables), dtype='int32'))
 
        else:
            self._id_list = table_handles
